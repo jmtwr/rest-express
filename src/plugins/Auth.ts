@@ -1,17 +1,30 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import { LogInCredentials, VerifiedLogInCredentials } from "../models/User";
+
+const JWT_TOKEN = process.env.JWT_TOKEN as string;
+
+export const verifyToken = (token: string): VerifiedLogInCredentials | undefined => {
+  try {
+    return jwt.verify(token, JWT_TOKEN) as VerifiedLogInCredentials;
+  } catch (e) {
+    return undefined;
+  }
+}
+
+export const tokenSign = (credentials: LogInCredentials): string => {
+  return jwt.sign(credentials, JWT_TOKEN, { expiresIn: "1h" });
+}
 
 export const auth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const { authorization } = req.headers;
   if (authorization) {
-    jwt.verify(authorization, process.env.JWT_TOKEN as string, (err, payload) => {
-      if (payload) {
-        console.log(`token ${payload}`)
-      }
+    const verifiedCreds = verifyToken(authorization);
 
-      next();
-    });
-  } else {
+    if (verifiedCreds) {
+
+    }
+
     next();
   }
 }
