@@ -5,8 +5,8 @@ import { ValidateError } from "../models/ValidateError";
 const ajv = new Ajv();
 const ajvPlug = addFormats(ajv);
 
-const convertToError = (ajvErr: ErrorObject[]): ValidateError => {
-  if (ajvErr.length) {
+const convertAjvError = (ajvErr?: ErrorObject[] | null): ValidateError => {
+  if (ajvErr && ajvErr.length) {
     return {
       status: "error",
       message: ajvErr[0].message!,
@@ -21,4 +21,4 @@ const convertToError = (ajvErr: ErrorObject[]): ValidateError => {
   }
 }
 
-export { ajvPlug, convertToError }
+export { ajvPlug, convertAjvError }

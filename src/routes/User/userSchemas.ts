@@ -1,6 +1,6 @@
 import { ajvPlug } from "../../plugins/Ajv";
 
-const signInSchema = {
+const signInBodySchema = {
   type: "object",
   properties: {
     email: { type: "string", format: "email" },
@@ -10,4 +10,4 @@ const signInSchema = {
   additionalProperties: false,
 }
 
-export const validateSignIn = ajvPlug.compile(signInSchema);
+export const validateSignInBody = ajvPlug.compile(signInBodySchema);
