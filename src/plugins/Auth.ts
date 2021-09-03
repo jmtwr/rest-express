@@ -24,7 +24,6 @@ export const auth = (req: express.Request, res: express.Response, next: express.
     if (verifiedCreds) {
 
     }
-
-    next();
   }
+  next();
 }

@@ -5,6 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.5",
+    "ajv": "^8.6.2",
+    "ajv-formats": "^2.1.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
@@ -24,6 +26,6 @@
   },
   "scripts": {
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts",
-    "test:dev": "jest --watchAll"
+    "test:dev": "jest --watchAll --detectOpenHandles"
   }
 }
