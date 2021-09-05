@@ -2,12 +2,10 @@ import { Router } from "express";
 import { db } from "../..";
 import { LogInCredentials, SignUpReq } from "../../models/User";
 import { convertAjvError } from "../../plugins/Ajv";
-import { auth, comparePassword, genHashedPassword, tokenSign } from "../../plugins/Auth";
+import { comparePassword, genHashedPassword, tokenSign } from "../../plugins/Auth";
 import { UserSvcLive } from "../../services/UserSvc";
 import { validateSignInBody, validateSignUpBody } from "./userSchemas";
 
-// const isValid = validateSignInBody(creds);
-// console.log("valid? ", convertToError(validateSignInBody.errors));
 const authRoutes = Router();
 
 authRoutes.get("/user", (req, res) => {
