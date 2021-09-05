@@ -9,7 +9,7 @@ export interface VerifiedLogInCredentials extends LogInCredentials {
 }
 
 export interface UserTO {
-  user_id: number;
+  user_id?: number;
   firstName: string;
   lastName: string;
   email: string;

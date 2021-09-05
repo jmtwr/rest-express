@@ -7,8 +7,8 @@ export class User1630850271595 implements MigrationInterface {
         user_id serial NOT NULL,
         email varchar NOT NULL,
         password varchar NOT NULL,
-        firstName varchar NOT NULL,
-        lastName varchar NOT NULL,
+        "firstName" varchar NOT NULL,
+        "lastName" varchar NOT NULL,
         CONSTRAINT "pk_user_id" PRIMARY KEY (user_id),
         CONSTRAINT "uq_email" UNIQUE (email)
       );
