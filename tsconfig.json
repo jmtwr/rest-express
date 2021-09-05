@@ -6,31 +6,27 @@
       "ESNext",
       "DOM"
     ],
-    "experimentalDecorators": true, /* Enable experimental support for TC39 stage 2 draft decorators. */
+    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs", /* Specify what module code is generated. */
+    "module": "commonjs",
     "rootDir": "./",
-    "moduleResolution": "node", /* Specify how TypeScript looks up a file from a given module specifier. */
-    "baseUrl": ".", /* Specify the base directory to resolve non-relative module names. */
+    "moduleResolution": "node",
+    "baseUrl": ".",
     "paths": {
       "express": [
         "@types/*"
       ]
-    }, /* Specify a set of entries that re-map imports to additional lookup locations. */
-    // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
+    },
     "typeRoots": [
       "./@types",
       "./node_modules/@types"
     ],
     "allowJs": true,
-    "declaration": true, /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
-    "declarationMap": true, /* Create sourcemaps for d.ts files. */
-    // "emitDeclarationOnly": true,                      /* Only output d.ts files and not JavaScript files. */
+    "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
-    "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
-    // "preserveSymlinks": true,                         /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
-    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
-    /* Type Checking */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true
