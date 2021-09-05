@@ -1,9 +1,22 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { app } from "./app";
-const PORT = process.env.PORT;
+import { connect, Database } from "./plugins/db";
 
-app.listen(PORT, () => console.log(`server run at port: ${PORT}`));
+const PORT = process.env.PORT;
+const entitiesPath = "./entities/**/*.ts";
+const DB_CONFIG = {
+  entities: [entitiesPath],
+  migrations: []
+}
+export let db: Database;
+
+const startServer = async () => {
+  db = await connect(DB_CONFIG);
+  app.listen(PORT, () => console.log(`server run at port: ${PORT}`));
+}
+
+startServer();
 
 process.on('uncaughtException', error => {
   console.error(error, 'uncaughtException:');
