@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { db } from "../..";
-import { LogInCredentials } from "../../models/User";
+import { LogInCredentials, SignUpReq } from "../../models/User";
 import { convertAjvError } from "../../plugins/Ajv";
-import { validateSignInBody } from "./userSchemas";
+import { validateSignInBody, validateSignUpBody } from "./userSchemas";
 
 // const isValid = validateSignInBody(creds);
 // console.log("valid? ", convertToError(validateSignInBody.errors));
@@ -17,6 +17,17 @@ userRoutes.post("/sign-in", async (req, res) => {
   }
 
   return res.status(401).send(convertAjvError(validateSignInBody.errors));
+});
+
+userRoutes.post("/sign-up", async (req, res) => {
+  const isBodyValid = validateSignUpBody(req.body);
+
+  if (isBodyValid) {
+    const { firstName, lastName, password, email } = req.body as SignUpReq;
+    return res.status(201).send(req.body);
+  }
+
+  return res.status(401).send(convertAjvError(validateSignUpBody.errors));
 });
 
 export { userRoutes };

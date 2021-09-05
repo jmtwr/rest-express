@@ -4,7 +4,7 @@ import { app } from "./app";
 import { connect, Database } from "./plugins/db";
 
 const PORT = process.env.PORT;
-const entitiesPath = "./entities/**/*.ts";
+const entitiesPath = "./src/entities/**/*.ts";
 const DB_CONFIG = {
   entities: [entitiesPath],
   migrations: []

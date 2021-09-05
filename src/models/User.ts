@@ -15,3 +15,10 @@ export interface UserTO {
   email: string;
   password: string;
 }
+
+export interface SignUpReq {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
