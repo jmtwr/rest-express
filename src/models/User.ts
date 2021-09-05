@@ -16,6 +16,9 @@ export interface UserTO {
   password: string;
 }
 
+export interface PublicUserTO extends Omit<UserTO, "password"> {
+}
+
 export interface SignUpReq {
   firstName: string;
   lastName: string;

@@ -2,26 +2,51 @@ import { Router } from "express";
 import { db } from "../..";
 import { LogInCredentials, SignUpReq } from "../../models/User";
 import { convertAjvError } from "../../plugins/Ajv";
-import { genHashedPassword } from "../../plugins/Auth";
+import { auth, comparePassword, genHashedPassword, tokenSign } from "../../plugins/Auth";
 import { UserSvcLive } from "../../services/UserSvc";
 import { validateSignInBody, validateSignUpBody } from "./userSchemas";
 
 // const isValid = validateSignInBody(creds);
 // console.log("valid? ", convertToError(validateSignInBody.errors));
-const userRoutes = Router();
+const authRoutes = Router();
 
-userRoutes.post("/sign-in", async (req, res) => {
+authRoutes.get("/user", (req, res) => {
+  const user = req.user;
+
+  if (!user) {
+    return res.status(401).send({ status: "error", message: "unauthorize" });
+  }
+  return res.status(200).send({ user })
+});
+
+authRoutes.post("/sign-in", async (req, res) => {
   const isBodyValid = validateSignInBody(req.body);
 
   if (isBodyValid) {
+    const svc = new UserSvcLive(db);
     const { email, password } = req.body as LogInCredentials;
+    try {
+      const candidate = await svc.find({ name: "email" }, email);
 
+      if (candidate.length) {
+        const { email: uEmail, password: hashedPass } = candidate[0];
+        const isPasswordValid = await comparePassword(password, hashedPass);
+
+        if (isPasswordValid) {
+          const token = tokenSign({ email: uEmail, password: hashedPass });
+          return res.status(200).send({ token })
+        }
+        return res.status(500).send({ status: "error", message: "wrong credentials" });
+      }
+    } catch (err) {
+      console.log("user not found", err);
+    }
   }
 
   return res.status(401).send(convertAjvError(validateSignInBody.errors));
 });
 
-userRoutes.post("/sign-up", async (req, res) => {
+authRoutes.post("/sign-up", async (req, res) => {
   const isBodyValid = validateSignUpBody(req.body);
   const svc = new UserSvcLive(db);
 
@@ -30,7 +55,8 @@ userRoutes.post("/sign-up", async (req, res) => {
     try {
       const hashedPassword = await genHashedPassword(password);
       const userTO = await svc.add({ firstName, lastName: lastName, email, password: hashedPassword });
-      res.status(201).send({ user: userTO })
+      const token = tokenSign({ email: userTO.email, password: hashedPassword });
+      return res.status(201).send({ token });
     } catch (e) {
       console.error("sign up new user Error", e);
       return res.status(500).send({ status: "error", message: "email address exists" });
@@ -40,4 +66,4 @@ userRoutes.post("/sign-up", async (req, res) => {
   return res.status(401).send(convertAjvError(validateSignUpBody.errors));
 });
 
-export { userRoutes };
+export { authRoutes };

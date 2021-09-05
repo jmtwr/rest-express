@@ -1,4 +1,5 @@
 import { ObjectLiteral, Repository } from "typeorm";
+import { FindQuery } from "../models/FindQuery";
 
 export abstract class BaseSvc<TO, ENT extends ObjectLiteral> {
   repo: Repository<ENT>;
@@ -18,6 +19,19 @@ export abstract class BaseSvc<TO, ENT extends ObjectLiteral> {
   get(id: number): Promise<ENT> {
     try {
       return this.repo.findOneOrFail(id);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  find(query: FindQuery, value: string) {
+    const { offset, limit, name } = query;
+    try {
+      return this.repo.createQueryBuilder("t")
+        .offset(offset)
+        .limit(limit)
+        .andWhere(`${name} ILike '%' || :${name}lkp || '%'`, { [`${name}lkp`]: value })
+        .getMany();
     } catch (err) {
       throw err;
     }

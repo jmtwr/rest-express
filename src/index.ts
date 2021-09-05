@@ -7,7 +7,8 @@ const PORT = process.env.PORT;
 const entitiesPath = "./src/entities/**/*.ts";
 const DB_CONFIG = {
   entities: [entitiesPath],
-  migrations: []
+  migrations: [],
+  logging: true
 }
 export let db: Database;
 
