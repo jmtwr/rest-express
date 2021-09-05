@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
 
-@Entity()
-export class User {
+@Entity("User")
+export class UserEnt {
 
   @PrimaryGeneratedColumn()
   user_id!: number;
@@ -12,6 +12,7 @@ export class User {
   @Column()
   lastName!: string;
 
+  @Index({ unique: true })
   @Column()
   email!: string;
 

@@ -1,8 +1,10 @@
-import { Connection, ConnectionOptions, createConnection, getConnectionOptions } from "typeorm";
+import { Connection, ConnectionOptions, createConnection, getConnectionOptions, Repository } from "typeorm";
 import "reflect-metadata";
+import { UserEnt } from "../entities/UserEnt";
 
 export interface Database {
   connection: Connection;
+  userRepo: Repository<UserEnt>
 }
 
 export const connect = async (options?: Partial<ConnectionOptions>): Promise<Database> => {
@@ -13,7 +15,8 @@ export const connect = async (options?: Partial<ConnectionOptions>): Promise<Dat
     console.log("Connected to DB", process.env.TYPEORM_HOST);
 
     return {
-      connection
+      connection,
+      userRepo: connection.getRepository(UserEnt)
     }
   } catch (error) {
     console.log("connection db error", error);
