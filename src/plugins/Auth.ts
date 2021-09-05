@@ -1,8 +1,18 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { LogInCredentials, VerifiedLogInCredentials } from "../models/User";
 
 const JWT_TOKEN = process.env.JWT_TOKEN as string;
+const SALT = 10;
+
+export const genHashedPassword = (password: string): Promise<string> => {
+  return bcrypt.hash(password, SALT);
+}
+
+export const comparePassword = async (password: string, hash: string): Promise<boolean> => {
+  return bcrypt.compare(password, hash);
+}
 
 export const verifyToken = (token: string): VerifiedLogInCredentials | undefined => {
   try {
