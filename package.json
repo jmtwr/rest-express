@@ -32,7 +32,7 @@
   },
   "scripts": {
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts",
-    "test:dev": "jest --watchAll --detectOpenHandles",
+    "test:dev": "NODE_ENV=test jest --watchAll --detectOpenHandles",
     "mRun": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run",
     "mRevert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert"
   }

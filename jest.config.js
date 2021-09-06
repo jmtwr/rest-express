@@ -3,9 +3,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   clearMocks: true,
-  //does not work with typeorm
   resetModules: false,
-  // resetModules: true,
   coveragePathIgnorePatterns: [
     '/node_modules/',
     '/__fixtures__/',
@@ -20,8 +18,8 @@ module.exports = {
       tsConfig: 'tsconfig.json'
     }
   },
-  // globalSetup: "./test/global/setup.ts",
-  // globalTeardown: "./test/global/teardown.ts",
+  globalSetup: "<rootDir>/src/tests/global/setup.ts",
+  globalTeardown: "<rootDir>/src/tests/global/teardown.ts",
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest'

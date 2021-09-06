@@ -9,7 +9,6 @@ const execute = async (fns: (() => Promise<unknown>)[]) => {
 }
 
 const SCHEMA_NAME = "public";
-const DEFAULT_TIMEOUT = 20000;
 export const DBTestHelper = {
   config: {
     type: "postgres",
@@ -17,45 +16,25 @@ export const DBTestHelper = {
     port: process.env.DB_PORT || 25432,
     username: "test",
     password: "test",
-    database: "test",
+    database: "restexpress",
     schema: SCHEMA_NAME,
     synchronize: false,
     logging: false,
-    entities: ["src/entity/**/*.ts"],
+    entities: ["src/entities/**/*.ts"],
     migrations: ["src/migration/**/*.ts"],
-  } as Required<PostgresConnectionOptions>,
+  },
 
-  async initDb(schema = SCHEMA_NAME): Promise<Database> {
+  async initDb(schema = SCHEMA_NAME) {
     await initSchema(schema);
-    try {
-      return connect(DBTestHelper.config);
-    } finally {
-      console.log("connected to db");
-    }
-  },
-  beforeAll(...fns: (() => Promise<unknown>)[]) {
-    jest.setTimeout(DEFAULT_TIMEOUT);
-
-    beforeAll(async () => {
-      try {
-        await execute(fns)
-      } finally {
-        console.log("Setup complete")
-      }
-    })
-  },
-  afterAll(...fns: (() => Promise<unknown>)[]) {
-    afterAll(async () => {
-      await execute(fns);
-    }, DEFAULT_TIMEOUT);
+    return connect(DBTestHelper.config as Required<PostgresConnectionOptions>);
   }
 }
 
 const initSchema = async (schema: string) => {
-  const cnt = await createConnection({ ...DBTestHelper.config, schema: undefined });
-  await cnt.query(`CREATE SCHEMA ${schema}`);
-  console.log(`Schema "${schema}" was created`);
+  const cnt = await createConnection({ ...(DBTestHelper.config) as Required<PostgresConnectionOptions>, schema: undefined });
+  await cnt.query(`CREATE SCHEMA IF NOT EXISTS ${schema}`);
   await cnt.runMigrations({ transaction: "none" });
   console.log("Migrations applied");
   await cnt.close();
+
 }
