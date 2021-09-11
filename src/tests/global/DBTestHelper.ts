@@ -8,31 +8,28 @@ const execute = async (fns: (() => Promise<unknown>)[]) => {
   }
 }
 
-const SCHEMA_NAME = "public";
 export const DBTestHelper = {
   config: {
     type: "postgres",
     host: "localhost",
-    port: process.env.DB_PORT || 25432,
+    port: process.env.DB_PORT || 1,
     username: "test",
     password: "test",
     database: "test",
-    schema: SCHEMA_NAME,
     synchronize: false,
     logging: false,
     entities: ["src/entities/**/*.ts"],
     migrations: ["src/migration/**/*.ts"],
   } as Required<PostgresConnectionOptions>,
 
-  async initDb(schema = SCHEMA_NAME) {
-    await initSchema(schema);
-    return connect(DBTestHelper.config);
+  async initDb() {
+    await initSchema();
+    return await connect(DBTestHelper.config);
   }
 }
 
-export const initSchema = async (schema: string) => {
+export const initSchema = async () => {
   const cnt = await createConnection({ ...(DBTestHelper.config) as Required<PostgresConnectionOptions>, schema: undefined });
-  await cnt.query(`CREATE SCHEMA IF NOT EXISTS ${schema}`);
   await cnt.runMigrations({ transaction: "none" });
   console.log("Migrations applied");
   await cnt.close();
