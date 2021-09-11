@@ -16,7 +16,7 @@ export default async () => {
     .withEnv('POSTGRES_PASSWORD', DBTestHelper.config.password)
     .withEnv('POSTGIS', isArm ? 'gangstead/postgis:13-arm' : 'postgis/postgis')
     .withEnv('DB_PORT', String(DBTestHelper.config.port))
-    .withWaitStrategy(postgresContainerName, Wait.forLogMessage("database system is ready to accept connections"));
+    .withWaitStrategy(postgresContainerName, Wait.forLogMessage('database system is ready to accept connections'));
 
   const environment = await compose.up();
   process.env.DB_PORT = String(environment.getContainer(postgresContainerName).getMappedPort(5432));

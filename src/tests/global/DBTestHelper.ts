@@ -16,25 +16,24 @@ export const DBTestHelper = {
     port: process.env.DB_PORT || 25432,
     username: "test",
     password: "test",
-    database: "restexpress",
+    database: "test",
     schema: SCHEMA_NAME,
     synchronize: false,
     logging: false,
     entities: ["src/entities/**/*.ts"],
     migrations: ["src/migration/**/*.ts"],
-  },
+  } as Required<PostgresConnectionOptions>,
 
   async initDb(schema = SCHEMA_NAME) {
     await initSchema(schema);
-    return connect(DBTestHelper.config as Required<PostgresConnectionOptions>);
+    return connect(DBTestHelper.config);
   }
 }
 
-const initSchema = async (schema: string) => {
+export const initSchema = async (schema: string) => {
   const cnt = await createConnection({ ...(DBTestHelper.config) as Required<PostgresConnectionOptions>, schema: undefined });
   await cnt.query(`CREATE SCHEMA IF NOT EXISTS ${schema}`);
   await cnt.runMigrations({ transaction: "none" });
   console.log("Migrations applied");
   await cnt.close();
-
 }

@@ -1,4 +1,11 @@
 {
+  "include": [
+    "index.ts",
+    "app.ts",
+    "src/**/*",
+    "src/**/*.json",
+    "tests/**/*"
+  ],
   "compilerOptions": {
     "composite": true,
     "target": "es6",
@@ -29,6 +36,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   }
 }
