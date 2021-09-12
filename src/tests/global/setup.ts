@@ -12,5 +12,6 @@ export default async () => {
 
   const environment = await container.start();
   process.env.DB_PORT = String(environment.getMappedPort(5432));
+  process.env.JWT_TOKEN = "testJWT";
   globalAny.__DB_CONTAINER__ = environment;
 }
