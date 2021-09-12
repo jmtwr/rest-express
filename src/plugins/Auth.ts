@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { LogInCredentials, VerifiedLogInCredentials } from "../models/User";
 import { UserSvcLive } from "../services/UserSvc";
-import { db } from "..";
 
 const JWT_TOKEN = process.env.JWT_TOKEN as string;
 const SALT = 10;
@@ -30,6 +29,7 @@ export const tokenSign = (credentials: LogInCredentials): string => {
 
 export const auth = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const { authorization } = req.headers;
+  const db = req.db;
 
   if (authorization) {
     const verifiedCreds = verifyToken(authorization);

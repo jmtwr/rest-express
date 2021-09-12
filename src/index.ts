@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { app } from "./app";
-import { connect, Database } from "./plugins/db";
+import { connect } from "./plugins/db";
 
 const PORT = process.env.PORT;
 const entitiesPath = "./src/entities/**/*.ts";
@@ -10,10 +10,9 @@ const DB_CONFIG = {
   migrations: [],
   logging: true
 }
-export let db: Database;
 
 const startServer = async () => {
-  db = await connect(DB_CONFIG);
+  app.request.db = await connect(DB_CONFIG);
   app.listen(PORT, () => console.log(`server run at port: ${PORT}`));
 }
 

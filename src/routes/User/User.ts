@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { db } from "../..";
 import { LogInCredentials, SignUpReq } from "../../models/User";
 import { convertAjvError } from "../../plugins/Ajv";
 import { comparePassword, genHashedPassword, tokenSign } from "../../plugins/Auth";
@@ -19,6 +18,7 @@ authRoutes.get("/user", (req, res) => {
 
 authRoutes.post("/sign-in", async (req, res) => {
   const isBodyValid = validateSignInBody(req.body);
+  const db = req.db;
 
   if (isBodyValid) {
     const svc = new UserSvcLive(db);
@@ -46,6 +46,7 @@ authRoutes.post("/sign-in", async (req, res) => {
 
 authRoutes.post("/sign-up", async (req, res) => {
   const isBodyValid = validateSignUpBody(req.body);
+  const db = req.db;
   const svc = new UserSvcLive(db);
 
   if (isBodyValid) {
