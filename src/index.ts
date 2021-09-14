@@ -4,9 +4,10 @@ import { app } from "./app";
 import { connect } from "./plugins/db";
 
 const PORT = process.env.PORT;
-const entitiesPath = "./src/entities/**/*.ts";
+const isDev = process.env.NODE_ENV !== "prod";
+const entitiesPath = "./src/entities/**/*";
 const DB_CONFIG = {
-  entities: [entitiesPath],
+  entities: [isDev ? `${entitiesPath}.ts` : `${entitiesPath}.js`],
   migrations: [],
   logging: true
 }

@@ -37,6 +37,7 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "outDir": "build"
   }
 }
