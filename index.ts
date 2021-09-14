@@ -1,13 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { app } from "./app";
-import { connect } from "./plugins/db";
+import { app } from "./src/app";
+import { connect } from "./src/plugins/db";
 
 const PORT = process.env.PORT;
 const isDev = process.env.NODE_ENV !== "prod";
-const entitiesPath = "./src/entities/**/*";
+const entitiesPath = "src/entities/**/*";
 const DB_CONFIG = {
-  entities: [isDev ? `${entitiesPath}.ts` : `${entitiesPath}.js`],
+  entities: [isDev ? `${entitiesPath}.ts` : `build/${entitiesPath}.js`],
   migrations: [],
   logging: true
 }
