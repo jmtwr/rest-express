@@ -1,0 +1,14 @@
+on: [push]
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    name: A job run jest test
+    steps:
+      - name: Hello world action step
+        id: hello
+        uses: actions/rest-express@v1
+
+      - name: Get the output time
+        run: echo "where am I"
+        run: "ls"

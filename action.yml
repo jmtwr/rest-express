@@ -1,0 +1,5 @@
+name: 'CI'
+description: 'test and build node project'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
