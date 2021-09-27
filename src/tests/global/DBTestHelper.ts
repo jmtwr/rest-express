@@ -12,7 +12,7 @@ export const DBTestHelper = {
   config: {
     type: "postgres",
     host: "localhost",
-    port: process.env.DB_PORT || 1,
+    port: process.env.DB_PORT || 25432,
     username: "test",
     password: "test",
     database: "test",
