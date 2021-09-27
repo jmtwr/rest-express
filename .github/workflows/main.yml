@@ -10,5 +10,6 @@ jobs:
         uses: actions/rest-express@v1
 
       - name: Get the output time
-        run: echo "where am I"
-        run: "ls"
+        run: |
+          echo "where am I"
+          ls
